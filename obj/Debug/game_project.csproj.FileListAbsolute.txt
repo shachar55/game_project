@@ -1,0 +1,7 @@
+C:\Users\shach\source\repos\game_project\game_project\bin\Debug\game_project.exe.config
+C:\Users\shach\source\repos\game_project\game_project\bin\Debug\game_project.exe
+C:\Users\shach\source\repos\game_project\game_project\bin\Debug\game_project.pdb
+C:\Users\shach\source\repos\game_project\game_project\obj\Debug\game_project.csprojAssemblyReference.cache
+C:\Users\shach\source\repos\game_project\game_project\obj\Debug\game_project.csproj.CoreCompileInputs.cache
+C:\Users\shach\source\repos\game_project\game_project\obj\Debug\game_project.exe
+C:\Users\shach\source\repos\game_project\game_project\obj\Debug\game_project.pdb
