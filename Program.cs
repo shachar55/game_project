@@ -12,7 +12,7 @@ namespace game_project
         static void Main(string[] args)
         {
             
-            Game game = new Game(new Field(3, 3, 58, 164));
+            Game game = new Game(new Field(3, 3, 58, 164),500);
             game.Main();
         }
     }

@@ -21,6 +21,11 @@ namespace game_project
             Console.SetCursorPosition(pos.GetXpos(),pos.GetYpos());
             Console.Write(ch1);
         }
+        public void Clear()
+        {
+            Console.SetCursorPosition(pos.GetXpos(), pos.GetYpos());
+            Console.Write(' ');
+        }
         public int GetXpos() { return pos.GetXpos(); }
         public int GetYpos() { return pos.GetYpos(); }
         public void SetXpos(int x) { pos.SetXpos(x); }
