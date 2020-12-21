@@ -8,30 +8,22 @@ namespace game_project
 {
     class Dot
     {
-        public Dot(Field f)
+        public Dot(Positions p)
         {
-           
-            field = f;
-            Create();
-            safe = 3;
+            pos = p;
         }
 
 
-        private Field field;
         private Positions pos;
-        private int safe; // safe distance from boraders
 
-        private void Create()
-        {
-            Random rnd = new Random();
-            pos.SetXpos(rnd.Next(field.GetLeft() + safe,field.GetRight() - safe ));
-            pos.SetYpos(rnd.Next(field.GetUp() + safe, field.GetDown() - safe));
-        }
         public void draw(char ch1) 
         {
-            Create();
             Console.SetCursorPosition(pos.GetXpos(),pos.GetYpos());
             Console.Write(ch1);
         }
+        public int GetXpos() { return pos.GetXpos(); }
+        public int GetYpos() { return pos.GetYpos(); }
+        public void SetXpos(int x) { pos.SetXpos(x); }
+        public void SetYpos(int y) { pos.SetYpos(y); }
     }
 }

@@ -82,6 +82,11 @@ namespace game_project
             facing++;
             facing = facing % 4;
         }
+        public void FacingMinus()
+        {
+            facing--;
+            facing = facing % 4;
+        }
 
     }
 }

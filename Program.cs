@@ -11,8 +11,8 @@ namespace game_project
     {   
         static void Main(string[] args)
         {
-            Player player1 = new Player(new Positions(10, 10));
-            Game game = new Game(new Field(3, 3, 58, 164),player1);
+            
+            Game game = new Game(new Field(3, 3, 58, 164));
             game.Main();
         }
     }

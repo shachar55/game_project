@@ -8,19 +8,33 @@ namespace game_project
 {
     class Game
     {
-        public Game(Field f,Player p)
+        public Game(Field f)
         {
+            Random rnd = new Random();
+            Player player1 = new Player(new Positions(10, 10));
+            Dot dot1 = new Dot(new Positions(rnd.Next(f.GetLeft() + safeSides, f.GetRight() - safeSides + 1), rnd.Next(f.GetUp() + safeUpDown, f.GetDown() - safeUpDown + 1)));
             field = f;
             safeSides = 3;
             safeUpDown = 1;
-            player = p;
-        }
+            dot = dot1;
+            player = player1;
 
+        }
+        private Dot dot;
         private Player player;
         private Field field;
-        private Dot dots;
         private int safeSides; // safe distance from side borders to print the player
         private int safeUpDown; // safe distance from side borders to print the player
+
+        public int PlayerEat(int points)
+        {
+            if (dot.GetXpos() == player.GetXpos()&& dot.GetYpos() ==player.GetYpos())
+            {
+                player.FacingMinus();
+                return points+1;
+            }
+            return points;
+        }
 
         public void MovePlayer(int dirction)// dirction = 0 - up;1 - right;2 - down;3 - left
         {
@@ -94,6 +108,7 @@ namespace game_project
         public void Main()
         {
             int steps = 0;
+            int points = 0;
             field.Draw('-', '|');
             bool End = false; // continue game loop until End will become true
                               // in the loop need to check if any jey was pressed
@@ -133,8 +148,10 @@ namespace game_project
                         steps++;
                     }
                 }
+                dot.draw('■');
+                points = PlayerEat(points);
                 Console.SetCursorPosition(30, 0);
-                Console.Write($"Steps: {steps}");
+                Console.Write($"Steps: {steps}     Points: {points}");
             }
         }
 
