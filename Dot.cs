@@ -18,8 +18,10 @@ namespace game_project
 
         public void draw(char ch1) 
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.SetCursorPosition(pos.GetXpos(),pos.GetYpos());
             Console.Write(ch1);
+            Console.ForegroundColor = ConsoleColor.White;
         }
         public void Clear()
         {

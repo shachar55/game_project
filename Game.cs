@@ -8,15 +8,17 @@ namespace game_project
 {
     class Game
     {
-        public Game(Field f,int steps)
+        public Game(Field field,int steps)
         {
             Random rnd = new Random();
             Player player = new Player(new Positions(10, 10));
-            Dot dot = new Dot(new Positions(rnd.Next(f.GetLeft() + safeSides, f.GetRight() - safeSides + 1), rnd.Next(f.GetUp() + safeUpDown, f.GetDown() - safeUpDown + 1)));
-            field = f;
+            Dot dot = new Dot(new Positions(rnd.Next(field.GetLeft() + safeSides, field.GetRight() - safeSides + 1), rnd.Next(field.GetUp() + safeUpDown, field.GetDown() - safeUpDown + 1)));
+            this.field = field;
             stepsLeft = steps;
+            stepsLeftBkp = stepsLeft;
+            points = 0;
             safeSides = 3;
-            safeUpDown = 3;
+            safeUpDown = 2;
             this.dot = dot;
             this.player = player;
 
@@ -25,6 +27,8 @@ namespace game_project
         private Player player;
         private Field field;
         private int stepsLeft;
+        private int stepsLeftBkp;
+        private int points;
         private int safeSides; // safe distance from side borders to print the player
         private int safeUpDown; // safe distance from side borders to print the player
 
@@ -46,7 +50,8 @@ namespace game_project
                 dot.SetXpos(rnd.Next(field.GetLeft() + safeSides, field.GetRight() - safeSides + 1));
                 dot.SetYpos(rnd.Next(field.GetUp() + safeUpDown, field.GetDown() - safeUpDown + 1));
                 dot.draw('■');
-                stepsLeft += 100;
+                stepsLeft += stepsLeft / 4;
+                points++;
             }
         }
 
@@ -121,7 +126,7 @@ namespace game_project
                 player.SetYpos(player.GetYpos() - 1);
                 if (player.GetYpos() <= field.GetUp() + safeUpDown)
                 {
-                    player.SetYpos(field.GetDown() - 3);
+                    player.SetYpos(field.GetDown() - safeUpDown);
                 }
             }
             else if (dirction == 1)
@@ -129,7 +134,7 @@ namespace game_project
                 player.SetXpos(player.GetXpos() + 1);
                 if (player.GetXpos() >= field.GetRight() - safeSides)
                 {
-                    player.SetXpos(field.GetLeft() + 3);
+                    player.SetXpos(field.GetLeft() + safeSides);
                 }
             }
             else if (dirction == 2)
@@ -137,7 +142,7 @@ namespace game_project
                 player.SetYpos(player.GetYpos() + 1);
                 if (player.GetYpos() >= field.GetDown() - safeUpDown)
                 {
-                    player.SetYpos(field.GetUp() + 3);
+                    player.SetYpos(field.GetUp() + safeUpDown);
                 }
             }
             else if (dirction == 3)
@@ -145,7 +150,7 @@ namespace game_project
                 player.SetXpos(player.GetXpos() - 1);
                 if (player.GetXpos() <= field.GetLeft() + safeSides)
                 {
-                    player.SetXpos(field.GetRight() - 3);
+                    player.SetXpos(field.GetRight() - safeSides);
                 }
             }
             player.FacingPlus();
@@ -185,6 +190,7 @@ namespace game_project
 
         public void Main()
         {
+            Console.Clear();
             int steps = 0;
             field.Draw('-', '|');
             bool End = false; // continue game loop until End will become true
@@ -237,9 +243,27 @@ namespace game_project
                 }
                 dot.draw('■');
                 Console.SetCursorPosition(30, 0);
-                Console.Write($"Steps Left: {stepsLeft}     Steps: {steps}");
+                Console.Write($"Steps Left: {stepsLeft}     Steps: {steps}      Points: {points}");
             }
+            Console.Clear();
+            Console.SetCursorPosition(30, 15);
+            Console.Write($"You ran out of steps...      You got to eat {points} dots with {steps} steps");
+            if (points >= 10)
+            {
+                Console.Write("Good job!");
+            }
+            else
+            {
+                Console.Write("You can do better");
+            }
+            Reset();
         }
 
+        public void Reset()
+        {
+            stepsLeft = stepsLeftBkp;
+            points = 0;
+            stepsLeft = 0;
+        }
     }
 }

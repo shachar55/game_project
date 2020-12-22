@@ -19,46 +19,48 @@ namespace game_project
 
         private void draw(char ch1, char ch2)
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
             if (facing == 0)
             {
-                Console.SetCursorPosition(pos.GetXpos() - 2, pos.GetYpos());
+                Console.SetCursorPosition(pos.GetXpos() - 1, pos.GetYpos());
                 Console.Write(new string(ch1, 1));
-                Console.SetCursorPosition(pos.GetXpos() + 2, pos.GetYpos());
+                Console.SetCursorPosition(pos.GetXpos() + 1, pos.GetYpos());
                 Console.Write(new string(ch1, 1));
-                Console.SetCursorPosition(pos.GetXpos() - 1, pos.GetYpos() + 1);
-                Console.Write(new string(ch2, 3));
+                Console.SetCursorPosition(pos.GetXpos() , pos.GetYpos() + 1);
+                Console.Write(new string(ch2, 1));
                 Console.SetCursorPosition(0, 0);
             }
             else if (facing == 1)
             {
-                Console.SetCursorPosition(pos.GetXpos() - 2, pos.GetYpos() - 1);
-                Console.Write(new string(ch2, 3));
-                Console.SetCursorPosition(pos.GetXpos() - 2, pos.GetYpos() + 1);
-                Console.Write(new string(ch2, 3));
-                Console.SetCursorPosition(pos.GetXpos() - 3, pos.GetYpos());
+                Console.SetCursorPosition(pos.GetXpos(), pos.GetYpos() - 1);
+                Console.Write(new string(ch2, 1));
+                Console.SetCursorPosition(pos.GetXpos() , pos.GetYpos() + 1);
+                Console.Write(new string(ch2, 1));
+                Console.SetCursorPosition(pos.GetXpos() - 1, pos.GetYpos());
                 Console.Write(new string(ch1, 1));
                 Console.SetCursorPosition(0, 0);
             }
             else if (facing == 2)
             {
-                Console.SetCursorPosition(pos.GetXpos() - 2, pos.GetYpos());
+                Console.SetCursorPosition(pos.GetXpos() - 1, pos.GetYpos());
                 Console.Write(new string(ch1, 1));
-                Console.SetCursorPosition(pos.GetXpos() + 2, pos.GetYpos());
+                Console.SetCursorPosition(pos.GetXpos() + 1, pos.GetYpos());
                 Console.Write(new string(ch1, 1));
-                Console.SetCursorPosition(pos.GetXpos() - 1, pos.GetYpos() - 1);
-                Console.Write(new string(ch2, 3));
+                Console.SetCursorPosition(pos.GetXpos() , pos.GetYpos() - 1);
+                Console.Write(new string(ch2, 1));
                 Console.SetCursorPosition(0, 0);
             }
             else if (facing == 3)
             {
                 Console.SetCursorPosition(pos.GetXpos(), pos.GetYpos() - 1);
-                Console.Write(new string(ch2, 3));
+                Console.Write(new string(ch2, 1));
                 Console.SetCursorPosition(pos.GetXpos(), pos.GetYpos() + 1);
-                Console.Write(new string(ch2, 3));
-                Console.SetCursorPosition(pos.GetXpos() + 3, pos.GetYpos());
+                Console.Write(new string(ch2, 1));
+                Console.SetCursorPosition(pos.GetXpos() + 1, pos.GetYpos());
                 Console.Write(new string(ch1, 1));
                 Console.SetCursorPosition(0, 0);
             }
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public void Print()
