@@ -8,42 +8,125 @@ namespace game_project
 {
     class Game
     {
-        public Game(Field f)
+        public Game(Field field,int steps)
         {
             Random rnd = new Random();
-            Player player1 = new Player(new Positions(10, 10));
-            Dot dot1 = new Dot(new Positions(rnd.Next(f.GetLeft() + safeSides, f.GetRight() - safeSides + 1), rnd.Next(f.GetUp() + safeUpDown, f.GetDown() - safeUpDown + 1)));
-            field = f;
+            Player player = new Player(new Positions(10, 10));
+            Dot dot = new Dot(new Positions(rnd.Next(field.GetLeft() + safeSides, field.GetRight() - safeSides + 1), rnd.Next(field.GetUp() + safeUpDown, field.GetDown() - safeUpDown + 1)));
+            this.field = field;
+            stepsLeft = steps;
+            stepsLeftBkp = stepsLeft;
+            points = 0;
             safeSides = 3;
-            safeUpDown = 1;
-            dot = dot1;
-            player = player1;
+            safeUpDown = 2;
+            this.dot = dot;
+            this.player = player;
 
         }
         private Dot dot;
         private Player player;
         private Field field;
+        private int stepsLeft;
+        private int stepsLeftBkp;
+        private int points;
         private int safeSides; // safe distance from side borders to print the player
         private int safeUpDown; // safe distance from side borders to print the player
 
-        public int PlayerEat(int points)
+        public void PlayerRandomize()
         {
-            if (dot.GetXpos() == player.GetXpos()&& dot.GetYpos() ==player.GetYpos())
-            {
-                player.FacingMinus();
-                return points+1;
-            }
-            return points;
+            Random rnd = new Random();
+            player.Clear();
+            player.SetXpos(rnd.Next(field.GetLeft() + safeSides, field.GetRight() - safeSides + 1));
+            player.SetYpos(rnd.Next(field.GetUp() + safeUpDown, field.GetDown() - safeUpDown + 1));
         }
 
+        public void PlayerEat()
+        {
+            if (dot.GetXpos() == player.GetXpos() && dot.GetYpos() == player.GetYpos())
+            {
+                Random rnd = new Random();
+                PlayerRandomize();
+                dot.Clear();
+                dot.SetXpos(rnd.Next(field.GetLeft() + safeSides, field.GetRight() - safeSides + 1));
+                dot.SetYpos(rnd.Next(field.GetUp() + safeUpDown, field.GetDown() - safeUpDown + 1));
+                dot.draw('■');
+                stepsLeft += stepsLeft / 4;
+                points++;
+            }
+        }
+
+        public void EatDirction()
+        {
+            Random rnd = new Random();
+            if (dot.GetXpos()+1 == player.GetXpos() && dot.GetYpos() == player.GetYpos())
+            {
+                if (player.GetFacing() == 0)
+                {
+                    PlayerRandomize();
+                }
+                if (player.GetFacing() == 1)
+                {
+                    PlayerRandomize();
+                }
+                if (player.GetFacing() == 2)
+                {
+                    PlayerRandomize();
+                }
+            }
+            if (dot.GetXpos() - 1 == player.GetXpos() && dot.GetYpos() == player.GetYpos())
+            {
+                if (player.GetFacing() == 0)
+                {
+                    PlayerRandomize();
+                }
+                if (player.GetFacing() == 3)
+                {
+                    PlayerRandomize();
+                }
+                if (player.GetFacing() == 2)
+                {
+                    PlayerRandomize();
+                }
+            }
+            if (dot.GetXpos() == player.GetXpos() && dot.GetYpos()+1 == player.GetYpos())
+            {
+                if (player.GetFacing() == 1)
+                {
+                    PlayerRandomize();
+                }
+                if (player.GetFacing() == 3)
+                {
+                    PlayerRandomize();
+                }
+                if (player.GetFacing() == 0)
+                {
+                    PlayerRandomize();
+                }
+            }
+            if (dot.GetXpos() == player.GetXpos() && dot.GetYpos() - 1 == player.GetYpos())
+            {
+                if (player.GetFacing() == 1)
+                {
+                    PlayerRandomize();
+                }
+                if (player.GetFacing() == 3)
+                {
+                    PlayerRandomize();
+                }
+                if (player.GetFacing() == 2)
+                {
+                    PlayerRandomize();
+                }
+            }
+        }
         public void MovePlayer(int dirction)// dirction = 0 - up;1 - right;2 - down;3 - left
         {
             if (dirction == 0)
             {
                 player.SetYpos(player.GetYpos() - 1);
-                if (player.GetYpos() <= field.GetUp()+ safeUpDown)
+                if (player.GetYpos() <= field.GetUp() + safeUpDown)
                 {
-                    player.SetYpos(field.GetDown() - 3);
+                    player.SetYpos(field.GetDown() - safeUpDown);
                 }
             }
             else if (dirction == 1)
@@ -51,7 +134,7 @@ namespace game_project
                 player.SetXpos(player.GetXpos() + 1);
                 if (player.GetXpos() >= field.GetRight() - safeSides)
                 {
-                    player.SetXpos(field.GetLeft() + 3);
+                    player.SetXpos(field.GetLeft() + safeSides);
                 }
             }
             else if (dirction == 2)
@@ -59,7 +142,7 @@ namespace game_project
                 player.SetYpos(player.GetYpos() + 1);
                 if (player.GetYpos() >= field.GetDown() - safeUpDown)
                 {
-                    player.SetYpos(field.GetUp() + 3);
+                    player.SetYpos(field.GetUp() + safeUpDown);
                 }
             }
             else if (dirction == 3)
@@ -67,7 +150,7 @@ namespace game_project
                 player.SetXpos(player.GetXpos() - 1);
                 if (player.GetXpos() <= field.GetLeft() + safeSides)
                 {
-                    player.SetXpos(field.GetRight() - 3);
+                    player.SetXpos(field.GetRight() - safeSides);
                 }
             }
             player.FacingPlus();
@@ -107,8 +190,8 @@ namespace game_project
 
         public void Main()
         {
+            Console.Clear();
             int steps = 0;
-            int points = 0;
             field.Draw('-', '|');
             bool End = false; // continue game loop until End will become true
                               // in the loop need to check if any jey was pressed
@@ -125,6 +208,7 @@ namespace game_project
                         MovePlayer(1);
                         player.Print();
                         steps++;
+                        stepsLeft--;
                     }
                     else if (key == ConsoleKey.LeftArrow) // left arrow was pressed
                     {
@@ -132,6 +216,7 @@ namespace game_project
                         MovePlayer(3);
                         player.Print();
                         steps++;
+                        stepsLeft--;
                     }
                     else if (key == ConsoleKey.UpArrow) // up arrow was pressed
                     {
@@ -139,6 +224,7 @@ namespace game_project
                         MovePlayer(0);
                         player.Print();
                         steps++;
+                        stepsLeft--;
                     }
                     else if (key == ConsoleKey.DownArrow) // down arrow was pressed
                     {
@@ -146,14 +232,38 @@ namespace game_project
                         MovePlayer(2);
                         player.Print();
                         steps++;
+                        stepsLeft--;
                     }
+                    EatDirction();
+                    PlayerEat();
+                }
+                if (stepsLeft <= 0)
+                {
+                    End = true;
                 }
                 dot.draw('■');
-                points = PlayerEat(points);
                 Console.SetCursorPosition(30, 0);
-                Console.Write($"Steps: {steps}     Points: {points}");
+                Console.Write($"Steps Left: {stepsLeft}     Steps: {steps}      Points: {points}");
             }
+            Console.Clear();
+            Console.SetCursorPosition(30, 15);
+            Console.Write($"You ran out of steps...      You got to eat {points} dots with {steps} steps");
+            if (points >= 10)
+            {
+                Console.Write("Good job!");
+            }
+            else
+            {
+                Console.Write("You can do better");
+            }
+            Reset();
         }
 
+        public void Reset()
+        {
+            stepsLeft = stepsLeftBkp;
+            points = 0;
+            stepsLeft = 0;
+        }
     }
 }
