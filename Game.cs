@@ -31,6 +31,8 @@ namespace game_project
         private int points;
         private int safeSides; // safe distance from side borders to print the player
         private int safeUpDown; // safe distance from side borders to print the player
+        private enum facingDirction { up, right, down, left }; // facing = 0 - up;1 - right;2 - down;3 - left
+        private facingDirction facing;
 
         public void PlayerRandomize()
         {
@@ -60,60 +62,61 @@ namespace game_project
             Random rnd = new Random();
             if (dot.GetXpos()+1 == player.GetXpos() && dot.GetYpos() == player.GetYpos())
             {
-                if (player.GetFacing() == 0)
+                facing = (facingDirction)player.facing;
+                if (facing == facingDirction.up)
                 {
                     PlayerRandomize();
                 }
-                if (player.GetFacing() == 1)
+                if (facing == facingDirction.right)
                 {
                     PlayerRandomize();
                 }
-                if (player.GetFacing() == 2)
+                if (facing == facingDirction.down)
                 {
                     PlayerRandomize();
                 }
             }
             if (dot.GetXpos() - 1 == player.GetXpos() && dot.GetYpos() == player.GetYpos())
             {
-                if (player.GetFacing() == 0)
+                if (facing == facingDirction.up)
                 {
                     PlayerRandomize();
                 }
-                if (player.GetFacing() == 3)
+                if (facing == facingDirction.left)
                 {
                     PlayerRandomize();
                 }
-                if (player.GetFacing() == 2)
+                if (facing == facingDirction.down)
                 {
                     PlayerRandomize();
                 }
             }
             if (dot.GetXpos() == player.GetXpos() && dot.GetYpos()+1 == player.GetYpos())
             {
-                if (player.GetFacing() == 1)
+                if (facing == facingDirction.right)
                 {
                     PlayerRandomize();
                 }
-                if (player.GetFacing() == 3)
+                if (facing == facingDirction.left)
                 {
                     PlayerRandomize();
                 }
-                if (player.GetFacing() == 0)
+                if (facing == facingDirction.up)
                 {
                     PlayerRandomize();
                 }
             }
             if (dot.GetXpos() == player.GetXpos() && dot.GetYpos() - 1 == player.GetYpos())
             {
-                if (player.GetFacing() == 1)
+                if (facing == facingDirction.right)
                 {
                     PlayerRandomize();
                 }
-                if (player.GetFacing() == 3)
+                if (facing == facingDirction.left)
                 {
                     PlayerRandomize();
                 }
-                if (player.GetFacing() == 2)
+                if (facing == facingDirction.down)
                 {
                     PlayerRandomize();
                 }

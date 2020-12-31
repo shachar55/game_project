@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace game_project
 {
+
     class Player
     {
         public Player(Positions p)
         {
             pos = p;
-            facing = 0;
+            facing = facingDirction.up;
         }
 
-        private Positions pos; 
-        private int facing; // facing = 0 - up;1 - right;2 - down;3 - left
-
+        private Positions pos;
+        public enum facingDirction { up,right,down,left }; // facing = 0 - up;1 - right;2 - down;3 - left
+        public facingDirction facing;
         private void draw(char ch1, char ch2)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            if (facing == 0)
+            if (facing == facingDirction.up)
             {
                 Console.SetCursorPosition(pos.GetXpos() - 1, pos.GetYpos());
                 Console.Write(new string(ch1, 1));
@@ -30,7 +31,7 @@ namespace game_project
                 Console.Write(new string(ch2, 1));
                 Console.SetCursorPosition(0, 0);
             }
-            else if (facing == 1)
+            else if (facing == facingDirction.right)
             {
                 Console.SetCursorPosition(pos.GetXpos(), pos.GetYpos() - 1);
                 Console.Write(new string(ch2, 1));
@@ -40,7 +41,7 @@ namespace game_project
                 Console.Write(new string(ch1, 1));
                 Console.SetCursorPosition(0, 0);
             }
-            else if (facing == 2)
+            else if (facing == facingDirction.down)
             {
                 Console.SetCursorPosition(pos.GetXpos() - 1, pos.GetYpos());
                 Console.Write(new string(ch1, 1));
@@ -50,7 +51,7 @@ namespace game_project
                 Console.Write(new string(ch2, 1));
                 Console.SetCursorPosition(0, 0);
             }
-            else if (facing == 3)
+            else if (facing == facingDirction.left)
             {
                 Console.SetCursorPosition(pos.GetXpos(), pos.GetYpos() - 1);
                 Console.Write(new string(ch2, 1));
@@ -81,12 +82,10 @@ namespace game_project
         public void SetYpos(int newYpos) { pos.SetYpos(newYpos); }
         public void FacingPlus() 
         {
+            int facing = (int)this.facing;
             facing++;
             facing = facing % 4;
-        }
-        public int GetFacing()
-        {
-            return facing;
+            this.facing = (facingDirction) facing;
         }
 
     }
